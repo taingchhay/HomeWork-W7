@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:homework_w7/ui/screens/library/view_model/library_view_model.dart';
+import 'package:homework_w7/ui/screens/library/widgets/library_content.dart';
 import 'package:provider/provider.dart';
  
 import '../../../data/repositories/songs/song_repository.dart';
@@ -12,40 +14,13 @@ class LibraryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1- Read the globbal song repository
-    SongRepository songRepository = context.read<SongRepository>();
-    List<Song> songs = songRepository.fetchSongs();
 
-    // 2- Read the globbal settings state
-    AppSettingsState settingsState = context.read<AppSettingsState>();
-
-    // 3 - Watch the globbal player state
-    PlayerState playerState = context.watch<PlayerState>();
-
-    return Container(
-      color: settingsState.theme.backgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 16),
-          Text("Library", style: AppTextStyles.heading),
-
-          SizedBox(height: 50),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: songs.length,
-              itemBuilder: (context, index) => SongTile(
-                song: songs[index],
-                isPlaying: playerState.currentSong == songs[index],
-                onTap: () {
-                  playerState.start(songs[index]);
-                },
-              ),
-            ),
-          ),
-        ],
+    return ChangeNotifierProvider(
+      create: (context)=> LibraryViewModel(
+        repository: context.read<SongRepository>(),
+        playerState: context.read<PlayerState>(),
       ),
+      child: const LibraryContent(),
     );
   }
 }

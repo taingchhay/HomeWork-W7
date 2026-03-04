@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homework_w7/model/songs/song.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/settings/app_settings.dart';
@@ -9,6 +10,9 @@ import 'widget/theme_color_button.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
+  // List<Song> _song = [];
+
+  // List<Song> get song => _songs;
   @override
   Widget build(BuildContext context) {
     AppSettingsState settingsState = context.watch<AppSettingsState>();
